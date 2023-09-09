@@ -65,6 +65,31 @@ files:
     );\n        }\n        \n        return CheckResult.correct();\n        \n   \
     \ }\n    \n}\n"
     learner_created: false
+  - name: src/flashcards/Cards.kt
+    visible: true
+    text: |-
+      package flashcards
+      
+      class Cards {
+          private val map = mutableMapOf<String, String>()
+      
+          fun add(term: String, definition: String) {
+              map[term] = definition
+          }
+      
+          fun check(term: String, definition: String) = map[term] == definition
+      
+          fun str(term: String) = """
+              Card:
+              $term
+              Definition:
+              ${map[term]}
+          """.trimIndent()
+      }
+    learner_created: true
 feedback_link: https://hyperskill.org/projects/83/stages/458/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Sat, 09 Sep 2023 18:53:54 UTC"
 record: -1

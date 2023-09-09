@@ -39,6 +39,15 @@ files:
     \     \n                    return CheckResult.correct();\n                  \
     \  \n                })\n        );\n    }\n    \n}\n"
     learner_created: false
+  - name: src/flashcards/Card.kt
+    visible: true
+    learner_created: true
+  - name: src/flashcards/Cards.kt
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/projects/83/stages/457/implement#comment
-status: Unchecked
-record: -1
+status: Failed
+feedback:
+  message: Execution failed
+  time: "Sat, 09 Sep 2023 18:52:41 UTC"
+record: 1
