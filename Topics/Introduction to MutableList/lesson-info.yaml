@@ -7,3 +7,4 @@ content:
   - Basic operations
   - Equal lists
   - Initializing a list
+  - Initializing a mutable list of characters
