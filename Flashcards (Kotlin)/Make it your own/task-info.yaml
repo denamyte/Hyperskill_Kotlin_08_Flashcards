@@ -228,9 +228,9 @@ files:
   - name: src/flashcards/Runtime.kt
     visible: true
     learner_created: true
-feedback_link: https://hyperskill.org/projects/83/stages/459/implement#comment
+feedback_link: https://hyperskill.org/learn/step/7488#comment
 status: Solved
 feedback:
   message: Congratulations!
   time: "Wed, 13 Sep 2023 22:52:23 UTC"
-record: -1
+record: 3

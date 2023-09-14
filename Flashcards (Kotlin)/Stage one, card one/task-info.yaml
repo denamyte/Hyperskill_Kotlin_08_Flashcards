@@ -45,7 +45,7 @@ files:
   - name: src/flashcards/Cards.kt
     visible: true
     learner_created: true
-feedback_link: https://hyperskill.org/projects/83/stages/457/implement#comment
+feedback_link: https://hyperskill.org/learn/step/7486#comment
 status: Failed
 feedback:
   message: Execution failed

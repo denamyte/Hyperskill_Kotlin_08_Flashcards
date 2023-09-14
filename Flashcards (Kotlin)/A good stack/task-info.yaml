@@ -242,6 +242,65 @@ files:
     \  \"a brother of one\",\n                \"a part of the body where the foot\
     \ meet\"\n        );\n    }\n    \n}\n"
     learner_created: false
-feedback_link: https://hyperskill.org/projects/83/stages/460/implement#comment
+  - name: src/flashcards/Runtime.kt
+    visible: true
+    text: |-
+      package flashcards
+      
+      class Runtime {
+          val cards = Cards()
+      
+          fun run() {
+              val n = inputN()
+              inputCards(n)
+              checkCards()
+          }
+      
+          private fun inputN(): Int {
+              println("Input the number of cards:")
+              return readln().toInt()
+          }
+      
+          private fun inputCards(n: Int) {
+              for (i in 1..n) {
+                  println("Card #$i:")
+                  val term = readln()
+                  println("The definition for card #$i:")
+                  cards.add(term, readln())
+              }
+          }
+      
+          private fun checkCards() = cards.cards.forEach { (t, d) ->
+              println("Print the definition of \"$t\":")
+              (if (readln() == d) "Correct!"
+              else "Wrong. The right answer is \"$d\".")
+                  .run(::println)
+          }
+      }
+    learner_created: true
+  - name: src/flashcards/Cards.kt
+    visible: true
+    text: |-
+      package flashcards
+      
+      class Cards {
+          private val map = mutableMapOf<String, String>()
+          val cards get() = map.toMap()
+      
+          fun add(term: String, definition: String) {
+              map[term] = definition
+          }
+      
+      //    fun check(term: String, definition: String) = map[term] == definition
+      
+      //    fun str(term: String) = """
+      //        Card:
+      //        $term
+      //        Definition:
+      //        ${map[term]}
+      //    """.trimIndent()
+      }
+    learner_created: true
+feedback_link: https://hyperskill.org/learn/step/7489#comment
 status: Unchecked
 record: -1

@@ -4,3 +4,5 @@ content:
   - Introduction to MutableList
   - For loop and ranges
   - Reading data with a readln
+  - The try-catch-finally statement
+  - Declaring functions

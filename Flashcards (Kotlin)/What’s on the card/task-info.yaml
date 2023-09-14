@@ -87,7 +87,7 @@ files:
           """.trimIndent()
       }
     learner_created: true
-feedback_link: https://hyperskill.org/projects/83/stages/458/implement#comment
+feedback_link: https://hyperskill.org/learn/step/7487#comment
 status: Solved
 feedback:
   message: Congratulations!
