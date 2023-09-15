@@ -6,3 +6,5 @@ content:
   - Reading data with a readln
   - The try-catch-finally statement
   - Declaring functions
+  - Work with MutableLists
+  - For loop and lists

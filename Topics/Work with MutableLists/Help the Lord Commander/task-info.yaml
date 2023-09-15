@@ -1,0 +1,16 @@
+type: code
+files:
+  - name: src/Main.kt
+    visible: true
+    text: "fun main() {  \n    val beyondTheWall = readLine()!!.split(\", \").map {\
+    \ it }.toMutableList()\n    val backToTheWall = readLine()!!.split(\", \").map\
+    \ { it }.toMutableList()   \n    // do not touch the lines above\n    // write\
+    \ your code here\n\n\n}"
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/14912#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Fri, 15 Sep 2023 20:29:00 UTC"
+record: -1
+submission_language: kotlin
