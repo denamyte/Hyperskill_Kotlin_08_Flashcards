@@ -1,0 +1,17 @@
+type: code
+files:
+  - name: src/Main.kt
+    visible: true
+    highlight_level: NONE
+    text: |-
+      fun bill(priceList: Map<String, Int>, shoppingList: MutableList<String>): Int {
+          // put your code here
+      }
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/12667#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 16 Sep 2023 21:54:47 UTC"
+record: -1
+submission_language: kotlin
