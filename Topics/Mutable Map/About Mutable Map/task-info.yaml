@@ -1,11 +1,10 @@
 type: choice
 is_multiple_choice: true
 options:
-  - text: name
-  - text: parentheses
-  - text: "the curly braces <b>{ }</b> for the body"
-  - text: a return type
-  - text: the fun keyword
+  - text: It holds elements as key-value pairs
+  - text: You can't add elements to it
+  - text: Its size is changeable
+  - text: You can modify MutableMap contents
 files:
   - name: src/Main.kt
     visible: true
@@ -16,8 +15,8 @@ files:
         // put your code here
       }
     learner_created: false
-feedback_link: https://hyperskill.org/learn/step/4582#comment
+feedback_link: https://hyperskill.org/learn/step/15877#comment
 status: Solved
 record: -1
-custom_name: What should be specified?
+custom_name: About Mutable Map...
 local_check: false
