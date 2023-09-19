@@ -1,0 +1,29 @@
+type: matching
+captions:
+  - Random.nextInt()
+  - Random.nextLong()
+  - Random.nextFloat()
+  - Random.nextDouble()
+options:
+  - Generates a long value between Long.MIN_VALUE and Long.MAX_VALUE (inclusive)
+  - Generates a random integer number between INT.MIN_VALUE and INT.MAX_VALUE (inclusive)
+  - Generates a float value between 0 (inclusive) and 1.0 (exclusive)
+  - Generates a double value between 0 (inclusive) and 1.0 (exclusive)
+files:
+  - name: src/Main.kt
+    visible: true
+    text: |
+      // You can experiment here, it won’t be checked
+      
+      fun main(args: Array<String>) {
+        // put your code here
+      }
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/20617#comment
+status: Solved
+record: -1
+ordering:
+  - 0
+  - 1
+  - 2
+  - 3

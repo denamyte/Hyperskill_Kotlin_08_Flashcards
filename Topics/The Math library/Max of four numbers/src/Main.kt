@@ -1,0 +1,1 @@
+fun main() = List(4) { readln().toInt() }.maxOrNull().run(::println)

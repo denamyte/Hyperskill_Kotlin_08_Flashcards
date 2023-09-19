@@ -1,0 +1,1 @@
+fun main() = println(9.8 * readln().toDouble() * readln().toDouble())

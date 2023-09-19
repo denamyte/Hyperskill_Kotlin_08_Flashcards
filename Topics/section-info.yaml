@@ -10,3 +10,6 @@ content:
   - For loop and lists
   - Map
   - Mutable Map
+  - Random
+  - Floating-point types
+  - The Math library

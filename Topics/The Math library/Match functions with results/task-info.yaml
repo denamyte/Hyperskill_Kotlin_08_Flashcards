@@ -1,0 +1,38 @@
+type: matching
+captions:
+  - sqrt(x)
+  - abs(x)
+  - "log(x, b)"
+  - ln(x)
+  - "max(x, y)"
+  - "min(x, y)"
+  - x.pow(y)
+options:
+  - returns the smaller value of x and y
+  - returns the value of x raised to the power of y.
+  - returns logarithm with base b of x
+  - returns the square root of value x
+  - returns natural logarithm (with base e) of x
+  - returns the absolute value of x
+  - returns the greater value of x and y
+files:
+  - name: src/Main.kt
+    visible: true
+    text: |
+      // You can experiment here, it won’t be checked
+      
+      fun main(args: Array<String>) {
+        // put your code here
+      }
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/4554#comment
+status: Solved
+record: -1
+ordering:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
