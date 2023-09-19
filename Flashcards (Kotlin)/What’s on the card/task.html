@@ -1,14 +1,14 @@
 <div class="step-text">
 <h5 id="description" style="text-align: center;">Description</h5>
-<p>Of course, we cannot use flashcards with only one hardcoded card. So let's make our program more dynamic! Let’s create flashcards depending on the user's input and add a primitive guessing mechanism so that the user can check how well they remember the definitions.</p>
-<p>In this stage, you need to implement a custom flashcard-creation mechanism which will be extensively used in further steps, and add a mechanism to check the user's answer.</p>
+<p>In Stage 1, we learnt how to create a dynamic flashcard from user's input. Let’s add a primitive guessing mechanism as well so that the user can check how well they remember the definitions.</p>
+<p>For this stage you'll extend the flashcard-creation mechanism implemented in Stage 1 and add a functionality to check the user's answer on top of it.</p>
 <h5 id="objectives" style="text-align: center;">Objectives</h5>
-<p>Your program should read two lines from the console, a <em>term,</em> and a <em>definition, </em>that represent a card. </p>
+<p>Similar to Stage 1, your program should read two lines from the console, a <em>term,</em> and a <em>definition, </em>that represent a card. However there's no need to print <code class="java">Card:</code> or <code class="java">Definition:</code> in this stage.</p>
 <p>After that, the user inputs a line as an <em>answer</em> (a definition of the term on the card). Compare the user's answer with the correct definition and print the result. </p>
-<p>The output of the program must contain one of two words:</p>
+<p>The output of the program must be one of the following:</p>
 <ul>
-<li><code class="java">wrong</code> if the answer doesn't match the definition;</li>
-<li><code class="java">right</code> if the answer matches the definition.</li>
+<li><code class="java">Your answer is wrong...</code> if the answer doesn't match the definition;</li>
+<li><code class="java">Your answer is right!</code> if the answer matches the definition.</li>
 </ul>
 <p>Of course, at this point, the user is unlikely to get the answer wrong, since they’re the ones who just typed in the answer... But don’t worry: right now we're just warming up so that in later stages we could make this a bit more challenging for our users.</p>
 <h5 id="examples" style="text-align: center;">Examples</h5>
