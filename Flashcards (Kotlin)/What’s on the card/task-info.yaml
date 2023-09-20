@@ -26,33 +26,34 @@ files:
     ).toLowerCase();\n        \n        if (output.equals(\"\") || output.matches(\"\
     \\\\s+\")) {\n            return CheckResult.wrong(\"Your program does not provide\
     \ feedback to the user\");\n        }\n        \n        if (!output.contains(\"\
-    right\")) {\n            return CheckResult.wrong(\"Your output should contain\
-    \ the word \\\"right\\\" if the user gets the definition\");\n        }\n    \
-    \    \n        return CheckResult.correct();\n        \n    }\n    \n    @DynamicTestingMethod\n\
-    \    CheckResult test2() {\n        TestedProgram main = new TestedProgram();\n\
-    \        String output;\n        \n        main.start();\n    \n        if (main.isFinished())\
-    \ {\n            return CheckResult.wrong(\"Your program should wait for user\
-    \ input\");\n        }\n        \n        main.execute(\"Dog\");\n        main.execute(\"\
-    A barking animal\");\n        output = main.execute(\"A barking animal\").toLowerCase();\n\
-    \        \n        if (output.equals(\"\") || output.matches(\"\\\\s+\")) {\n\
-    \            return CheckResult.wrong(\"Your program does not provide feedback\
-    \ to the user\");\n        }\n        \n        if (!output.contains(\"right\"\
-    )) {\n            return CheckResult.wrong(\"Your output should contain the word\
-    \ \\\"right\\\" if the user gets the definition\");\n        }\n        \n   \
-    \     return CheckResult.correct();\n        \n    }\n    //Test 3, in this case\
-    \ the user fails the definition, same as test 4\n    @DynamicTestingMethod\n \
-    \   CheckResult test3() {\n        TestedProgram main = new TestedProgram();\n\
-    \        String output;\n        \n        main.start();\n    \n        if (main.isFinished())\
-    \ {\n            return CheckResult.wrong(\"Your program should wait for user\
-    \ input\");\n        }\n        \n        main.execute(\"Jetbrains\");\n     \
-    \   main.execute(\"A place for people who love to code\");\n        output = main.execute(\"\
-    A place for people who hate to code\").toLowerCase();\n    \n        if (output.equals(\"\
-    \") || output.matches(\"\\\\s+\")) {\n            return CheckResult.wrong(\"\
-    Your program does not provide feedback to the user\");\n        }\n        \n\
-    \        if (!output.contains(\"wrong\")) {\n            return CheckResult.wrong(\"\
-    Your output should contain the word \\\"wrong\\\" if the user fails the definition\"\
+    your answer is right!\")) {\n            return CheckResult.wrong(\"Your output\
+    \ should be \\\"your answer is right!\\\" if the user gets the definition\");\n\
+    \        }\n        \n        return CheckResult.correct();\n        \n    }\n\
+    \    \n    @DynamicTestingMethod\n    CheckResult test2() {\n        TestedProgram\
+    \ main = new TestedProgram();\n        String output;\n        \n        main.start();\n\
+    \    \n        if (main.isFinished()) {\n            return CheckResult.wrong(\"\
+    Your program should wait for user input\");\n        }\n        \n        main.execute(\"\
+    Dog\");\n        main.execute(\"A barking animal\");\n        output = main.execute(\"\
+    A barking animal\").toLowerCase();\n        \n        if (output.equals(\"\")\
+    \ || output.matches(\"\\\\s+\")) {\n            return CheckResult.wrong(\"Your\
+    \ program does not provide feedback to the user\");\n        }\n        \n   \
+    \     if (!output.contains(\"your answer is right!\")) {\n            return CheckResult.wrong(\"\
+    Your output should be \\\"your answer is right!\\\" if the user gets the definition\"\
     );\n        }\n        \n        return CheckResult.correct();\n        \n   \
-    \ }\n    \n    @DynamicTestingMethod\n    CheckResult test4() {\n        TestedProgram\
+    \ }\n    //Test 3, in this case the user fails the definition, same as test 4\n\
+    \    @DynamicTestingMethod\n    CheckResult test3() {\n        TestedProgram main\
+    \ = new TestedProgram();\n        String output;\n        \n        main.start();\n\
+    \    \n        if (main.isFinished()) {\n            return CheckResult.wrong(\"\
+    Your program should wait for user input\");\n        }\n        \n        main.execute(\"\
+    Jetbrains\");\n        main.execute(\"A place for people who love to code\");\n\
+    \        output = main.execute(\"A place for people who hate to code\").toLowerCase();\n\
+    \    \n        if (output.equals(\"\") || output.matches(\"\\\\s+\")) {\n    \
+    \        return CheckResult.wrong(\"Your program does not provide feedback to\
+    \ the user\");\n        }\n        \n        if (!output.contains(\"your answer\
+    \ is wrong...\")) {\n            return CheckResult.wrong(\"Your output should\
+    \ be \\\"your answer is wrong...\\\" if the user fails the definition\");\n  \
+    \      }\n        \n        return CheckResult.correct();\n        \n    }\n \
+    \   \n    @DynamicTestingMethod\n    CheckResult test4() {\n        TestedProgram\
     \ main = new TestedProgram();\n        String output;\n        \n        main.start();\n\
     \    \n        if (main.isFinished()) {\n            return CheckResult.wrong(\"\
     Your program should wait for user input\");\n        }\n        \n        main.execute(\"\
@@ -60,10 +61,10 @@ files:
     A purring animal\").toLowerCase();\n        \n        if (output.equals(\"\")\
     \ || output.matches(\"\\\\s+\")) {\n            return CheckResult.wrong(\"Your\
     \ program does not provide feedback to the user\");\n        }\n        \n   \
-    \     if (!output.contains(\"wrong\")) {\n            return CheckResult.wrong(\"\
-    Your output should contain the word \\\"wrong\\\" if the user fails the definition\"\
-    );\n        }\n        \n        return CheckResult.correct();\n        \n   \
-    \ }\n    \n}\n"
+    \     if (!output.contains(\"your answer is wrong...\")) {\n            return\
+    \ CheckResult.wrong(\"Your output should be \\\"your answer is wrong...\\\" if\
+    \ the user fails the definition\");\n        }\n        \n        return CheckResult.correct();\n\
+    \        \n    }\n    \n}\n"
     learner_created: false
   - name: src/flashcards/Cards.kt
     visible: true
