@@ -415,7 +415,32 @@ files:
     Abuja\",\n                \"Berlin\"\n        );\n    }\n    \n}\n\n\n\n\n\n\n\
     \n\n\n\n\n"
     learner_created: false
-  - name: src/flashcards/Runtime.kt
+  - name: src/flashcards/Cards.kt
+    visible: true
+    text: |-
+      package flashcards
+      
+      class Cards {
+          private val map = mutableMapOf<String, String>()
+          private val oppMap = mutableMapOf<String, String>()
+          val cards get() = map.toMap()
+      
+          fun add(term: String, definition: String) {
+              map[term] = definition
+              oppMap[definition] = term
+          }
+      
+          fun containsTerm(term: String) = term in map.keys
+      
+          fun containsDefinition(definition: String) = definition in map.values
+      
+          fun definition(term: String) = map[term]!!
+      
+          fun term(definition: String) = oppMap[definition]!!
+      
+      }
+    learner_created: true
+  - name: src/flashcards/Menu.kt
     visible: true
     text: |
       package flashcards
@@ -475,31 +500,9 @@ files:
           }
       }
     learner_created: true
-  - name: src/flashcards/Cards.kt
-    visible: true
-    text: |-
-      package flashcards
-      
-      class Cards {
-          private val map = mutableMapOf<String, String>()
-          private val oppMap = mutableMapOf<String, String>()
-          val cards get() = map.toMap()
-      
-          fun add(term: String, definition: String) {
-              map[term] = definition
-              oppMap[definition] = term
-          }
-      
-          fun containsTerm(term: String) = term in map.keys
-      
-          fun containsDefinition(definition: String) = definition in map.values
-      
-          fun definition(term: String) = map[term]!!
-      
-          fun term(definition: String) = oppMap[definition]!!
-      
-      }
-    learner_created: true
 feedback_link: https://hyperskill.org/learn/step/7490#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Wed, 20 Sep 2023 19:34:36 UTC"
 record: 5

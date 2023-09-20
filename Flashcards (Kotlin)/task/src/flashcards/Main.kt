@@ -1,5 +1,5 @@
 package flashcards
 
 fun main() {
-    Runtime().run()
+    Menu().run()
 }
