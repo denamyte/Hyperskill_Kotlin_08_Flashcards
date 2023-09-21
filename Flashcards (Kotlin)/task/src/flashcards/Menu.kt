@@ -2,14 +2,18 @@ package flashcards
 
 import java.io.File
 
+val L = Logger()
+const val HARDEST_SINGULAR = "The hardest card is %s. You have %d errors answering it."
+const val HARDEST_MULTI = "The hardest cards are %s. You have %d errors answering them."
+
 class Menu {
     private val cards = Cards()
 
     fun run() {
         var cmd = ""
         while (cmd != "exit") {
-            println("Input the action (add, remove, import, export, ask, exit):")
-            cmd = readln()
+            L.println("Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):")
+            cmd = L.readln()
             when (cmd) {
                 "add" -> add()
                 "remove" -> remove()
@@ -17,8 +21,11 @@ class Menu {
                 "export" -> export()
                 "ask" -> ask()
                 "exit" -> exit()
+                "log" -> log()
+                "hardest card" -> hardestCard()
+                "reset stats" -> resetStats()
             }
-            if (cmd != "exit") println()
+            if (cmd != "exit") L.println()
         }
     }
 
@@ -34,71 +41,95 @@ class Menu {
                 cards::containsDefinition,
                 "The definition \"%s\" already exists."
             )
-            cards.add(term, def)
-            println("The pair (\"$term\":\"$def\") has been added.")
+            cards.add(Card(term, def))
+            L.println("The pair (\"$term\":\"$def\") has been added.")
         } catch (e: AlreadyExistsException) {
-            println(e.message)
+            L.println(e.message)
         }
     }
 
     private fun remove() {
-        println("Which card?")
-        val term = readln()
-        println(
-            if (cards.remove(term) == null) "Can't remove \"$term\": there is no such card."
+        L.println("Which card?")
+        val term = L.readln()
+        val remove = cards.remove(term)
+        L.println(
+            if (!remove) "Can't remove \"$term\": there is no such card."
             else "The card has been removed"
         )
     }
 
     private fun import() {
-        println("File name:")
-        val file = File(readln())
-        if (!file.exists()) println("File not found.")
-        else {
-            file.readLines()
-                .map { it.split("===") }
-                .associate { Pair(it[0], it[1]) }
-                .also(cards::addAll)
-                .also { println("${it.size} cards have been loaded.") }
-        }
+        val file = File(fileName())
+        if (!file.exists()) L.println("File not found.")
+        else file.readLines()
+            .map(Card::parse)
+            .also(cards::addAll)
+            .also { L.println("${it.size} cards have been loaded.") }
     }
 
     private fun export() {
-        println("File name:")
-        val name = readln()
+        val name = fileName()
         cards.cards
-            .also { println("${it.size} cards have been saved.") }
-            .map { (k, v) -> "$k===$v" }.joinToString("\n")
+            .also { L.println("${it.size} cards have been saved.") }
+            .joinToString("\n")
             .let { File(name).writeText(it) }
     }
 
     private fun ask() {
-        println("How many times to ask?")
-        repeat(readln().toInt()) { checkCards() }
+        L.println("How many times to ask?")
+        repeat(L.readln().toInt()) { checkCard() }
     }
 
-    private fun exit() = println("Bye bye!")
+    private fun exit() = L.println("Bye bye!")
+
+    private fun log() {
+        File(fileName()).writeText(L.logText)
+        L.println("The log has been saved.")
+    }
+
+    private fun hardestCard() {
+        val hardest = cards.hardest
+        L.println(
+            if (hardest.isEmpty()) "There are no cards with errors."
+            else (if (hardest.size == 1) HARDEST_SINGULAR else HARDEST_MULTI)
+                .format(hardest.joinToString { "\"${it.term}\"" }, hardest[0].errors)
+        )
+    }
+
+    private fun resetStats() {
+        cards.resetStats()
+        L.println("Card statistics have been reset.")
+    }
 
     private fun inputCardPart(prompt: String,
                               exists: (String) -> Boolean,
                               error: String): String {
-        println(prompt)
-        val value = readln()
+        L.println(prompt)
+        val value = L.readln()
         if (exists(value))
             throw AlreadyExistsException(error.format(value))
         return value
     }
 
-    private fun checkCards() {
-        val (term, def) = cards.randomCard()
-        println("Print the definition of \"$term\":")
-        val userDef = readln()
-        println(when {
-            userDef == def -> "Correct!"
-            cards.containsDefinition(userDef) -> "Wrong. The right answer is \"$def\", " +
+    private fun checkCard() {
+        val card = cards.randomCard()
+        L.println("Print the definition of \"${card.term}\":")
+        val userDef = L.readln()
+
+        val correct = userDef == card.definition
+        if (!correct) card.inc()
+
+        L.println(when {
+            correct -> "Correct!"
+            cards.containsDefinition(userDef) -> "Wrong. The right answer is \"${card.definition}\", " +
                     "but your definition is correct for \"${cards.term(userDef)}\"."
-            else -> "Wrong. The right answer is \"$def\"."
+            else -> "Wrong. The right answer is \"${card.definition}\"."
         })
+    }
+
+    private fun fileName(): String {
+        L.println("File name:")
+        return L.readln()
     }
 }
 

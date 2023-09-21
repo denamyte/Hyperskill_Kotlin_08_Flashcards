@@ -1,37 +1,48 @@
 package flashcards
 
 class Cards {
-    private val map = mutableMapOf<String, String>()
-    private val oppMap = mutableMapOf<String, String>()
-    val cards get() = map.toMap()
+    private val termMap = mutableMapOf<String, Card>()
+    private val defMap = mutableMapOf<String, Card>()
 
-    fun add(term: String, definition: String) {
-        map[term] = definition
-        oppMap[definition] = term
+    val cards get() = termMap.values.toList()
+    val hardest: List<Card> get() {
+        val maxErrors = (if (termMap.isEmpty()) 0 else termMap.values.maxOf { it.errors })
+        return if (maxErrors == 0) listOf()
+            else termMap.values.filter { it.errors == maxErrors }
     }
 
-    fun addAll(newCards: Map<String, String>) =
+    fun add(card: Card) {
+        termMap[card.term] = card
+        defMap[card.definition] = card
+    }
+
+    fun addAll(newCards: List<Card>) =
         newCards.forEach {
-            val def = map.remove(it.key)
-            if (def != null) oppMap.remove(def)
-            val term = oppMap.remove(it.value)
-            if (term != null) map.remove(term)
-            add(it.key, it.value)
+            val termCard = termMap.remove(it.term)
+            if (termCard != null) defMap.remove(termCard.definition)
+            val defCard = defMap.remove(it.definition)
+            if (defCard != null) termMap.remove(defCard.term)
+            add(it)
         }
 
-    fun containsTerm(term: String) = term in map.keys
+    fun containsTerm(term: String) = term in termMap
 
-    fun containsDefinition(definition: String) = definition in map.values
+    fun containsDefinition(definition: String) = definition in defMap
 
-    fun definition(term: String) = map[term]!!
+    fun definition(term: String) = termMap[term]!!.definition
 
-    fun term(definition: String) = oppMap[definition]!!
+    fun term(definition: String) = defMap[definition]!!.term
 
-    fun randomCard(): Pair<String, String> {
-        val term = map.keys.shuffled()[0]
-        return Pair(term, map[term]!!)
+    fun randomCard(): Card {
+        val term = termMap.keys.shuffled()[0]
+        return termMap[term]!!
     }
 
-    fun remove(term: String) = oppMap.remove(map.remove(term))
+    fun remove(term: String): Boolean {
+        val card = termMap.remove(term) ?: return false
+        defMap.remove(card.definition)
+        return true
+    }
 
+    fun resetStats() = termMap.values.forEach(Card::reset)
 }
