@@ -637,6 +637,254 @@ files:
     \   \"London\",\n                \"Abuja\",\n                \"Berlin\"\n    \
     \    );\n    }\n    \n}\n"
     learner_created: false
+  - name: src/flashcards/Logger.kt
+    visible: true
+    text: |-
+      package flashcards
+      
+      class Logger {
+          private val _logs = mutableListOf<String>()
+          val logText get() = _logs.joinToString("\n")
+      
+          fun println(s: Any?) {
+              _logs += s.toString()
+              kotlin.io.println(s)
+          }
+      
+          fun println() = println("")
+      
+          fun readln(): String {
+              _logs += kotlin.io.readln()
+              return _logs.last()
+          }
+      }
+    learner_created: true
+  - name: src/flashcards/Menu.kt
+    visible: true
+    text: |
+      package flashcards
+      
+      import java.io.File
+      
+      val L = Logger()
+      const val HARDEST_SINGULAR = "The hardest card is %s. You have %d errors answering it."
+      const val HARDEST_MULTI = "The hardest cards are %s. You have %d errors answering them."
+      
+      class Menu {
+          private val cards = Cards()
+      
+          fun run() {
+              var cmd = ""
+              while (cmd != "exit") {
+                  L.println("Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):")
+                  cmd = L.readln()
+                  when (cmd) {
+                      "add" -> add()
+                      "remove" -> remove()
+                      "import" -> import()
+                      "export" -> export()
+                      "ask" -> ask()
+                      "exit" -> exit()
+                      "log" -> log()
+                      "hardest card" -> hardestCard()
+                      "reset stats" -> resetStats()
+                  }
+                  if (cmd != "exit") L.println()
+              }
+          }
+      
+          private fun add() {
+              try {
+                  val term = inputCardPart(
+                      "The card:",
+                      cards::containsTerm,
+                      "The card \"%s\" already exists."
+                  )
+                  val def = inputCardPart(
+                      "The definition of the card:",
+                      cards::containsDefinition,
+                      "The definition \"%s\" already exists."
+                  )
+                  cards.add(Card(term, def))
+                  L.println("The pair (\"$term\":\"$def\") has been added.")
+              } catch (e: AlreadyExistsException) {
+                  L.println(e.message)
+              }
+          }
+      
+          private fun remove() {
+              L.println("Which card?")
+              val term = L.readln()
+              val remove = cards.remove(term)
+              L.println(
+                  if (!remove) "Can't remove \"$term\": there is no such card."
+                  else "The card has been removed"
+              )
+          }
+      
+          private fun import() {
+              val file = File(fileName())
+              if (!file.exists()) L.println("File not found.")
+              else file.readLines()
+                  .map(Card::parse)
+                  .also(cards::addAll)
+                  .also { L.println("${it.size} cards have been loaded.") }
+          }
+      
+          private fun export() {
+              val name = fileName()
+              cards.cards
+                  .also { L.println("${it.size} cards have been saved.") }
+                  .joinToString("\n")
+                  .let { File(name).writeText(it) }
+          }
+      
+          private fun ask() {
+              L.println("How many times to ask?")
+              repeat(L.readln().toInt()) { checkCard() }
+          }
+      
+          private fun exit() = L.println("Bye bye!")
+      
+          private fun log() {
+              File(fileName()).writeText(L.logText)
+              L.println("The log has been saved.")
+          }
+      
+          private fun hardestCard() {
+              val hardest = cards.hardest
+              L.println(
+                  if (hardest.isEmpty()) "There are no cards with errors."
+                  else (if (hardest.size == 1) HARDEST_SINGULAR else HARDEST_MULTI)
+                      .format(hardest.joinToString { "\"${it.term}\"" }, hardest[0].errors)
+              )
+          }
+      
+          private fun resetStats() {
+              cards.resetStats()
+              L.println("Card statistics have been reset.")
+          }
+      
+          private fun inputCardPart(prompt: String,
+                                    exists: (String) -> Boolean,
+                                    error: String): String {
+              L.println(prompt)
+              val value = L.readln()
+              if (exists(value))
+                  throw AlreadyExistsException(error.format(value))
+              return value
+          }
+      
+          private fun checkCard() {
+              val card = cards.randomCard()
+              L.println("Print the definition of \"${card.term}\":")
+              val userDef = L.readln()
+      
+              val correct = userDef == card.definition
+              if (!correct) card.inc()
+      
+              L.println(when {
+                  correct -> "Correct!"
+                  cards.containsDefinition(userDef) -> "Wrong. The right answer is \"${card.definition}\", " +
+                          "but your definition is correct for \"${cards.term(userDef)}\"."
+                  else -> "Wrong. The right answer is \"${card.definition}\"."
+              })
+          }
+      
+          private fun fileName(): String {
+              L.println("File name:")
+              return L.readln()
+          }
+      }
+      
+      class AlreadyExistsException(msg: String): RuntimeException(msg)
+    learner_created: true
+  - name: src/flashcards/Card.kt
+    visible: true
+    text: |-
+      package flashcards
+      
+      const val SEP = "==="
+      
+      class Card(
+          val term: String,
+          val definition: String,
+          _errors: Int = 0
+      ) {
+          var errors = _errors
+              private set
+      
+          fun inc() = errors++
+      
+          fun reset() {
+              errors = 0
+          }
+      
+          override fun toString() = "$term$SEP$definition$SEP$errors"
+      
+          companion object {
+              fun parse(s: String): Card {
+                  val data = s.split(SEP)
+                  return Card(data[0], data[1], data[2].toInt())
+              }
+          }
+      }
+    learner_created: true
+  - name: src/flashcards/Cards.kt
+    visible: true
+    text: |-
+      package flashcards
+      
+      class Cards {
+          private val termMap = mutableMapOf<String, Card>()
+          private val defMap = mutableMapOf<String, Card>()
+      
+          val cards get() = termMap.values.toList()
+          val hardest: List<Card> get() {
+              val maxErrors = (if (termMap.isEmpty()) 0 else termMap.values.maxOf { it.errors })
+              return if (maxErrors == 0) listOf()
+                  else termMap.values.filter { it.errors == maxErrors }
+          }
+      
+          fun add(card: Card) {
+              termMap[card.term] = card
+              defMap[card.definition] = card
+          }
+      
+          fun addAll(newCards: List<Card>) =
+              newCards.forEach {
+                  val termCard = termMap.remove(it.term)
+                  if (termCard != null) defMap.remove(termCard.definition)
+                  val defCard = defMap.remove(it.definition)
+                  if (defCard != null) termMap.remove(defCard.term)
+                  add(it)
+              }
+      
+          fun containsTerm(term: String) = term in termMap
+      
+          fun containsDefinition(definition: String) = definition in defMap
+      
+          fun definition(term: String) = termMap[term]!!.definition
+      
+          fun term(definition: String) = defMap[definition]!!.term
+      
+          fun randomCard(): Card {
+              val term = termMap.keys.shuffled()[0]
+              return termMap[term]!!
+          }
+      
+          fun remove(term: String): Boolean {
+              val card = termMap.remove(term) ?: return false
+              defMap.remove(card.definition)
+              return true
+          }
+      
+          fun resetStats() = termMap.values.forEach(Card::reset)
+      }
+    learner_created: true
 feedback_link: https://hyperskill.org/learn/step/7492#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Sat, 23 Sep 2023 12:38:37 UTC"
 record: -1

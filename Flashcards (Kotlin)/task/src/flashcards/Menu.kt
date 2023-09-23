@@ -6,8 +6,21 @@ val L = Logger()
 const val HARDEST_SINGULAR = "The hardest card is %s. You have %d errors answering it."
 const val HARDEST_MULTI = "The hardest cards are %s. You have %d errors answering them."
 
-class Menu {
+class Menu(args: Array<String>) {
     private val cards = Cards()
+    private var exportOnExitName: String? = null
+
+    init {
+        var arguments = args.toList()
+        while (arguments.size >= 2) {
+            val (type, data) = arguments
+            when (type) {
+                "-import" -> import(data)
+                "-export" -> exportOnExitName = data
+            }
+            arguments = arguments.drop(2)
+        }
+    }
 
     fun run() {
         var cmd = ""
@@ -17,8 +30,8 @@ class Menu {
             when (cmd) {
                 "add" -> add()
                 "remove" -> remove()
-                "import" -> import()
-                "export" -> export()
+                "import" -> import(fileName())
+                "export" -> export(fileName())
                 "ask" -> ask()
                 "exit" -> exit()
                 "log" -> log()
@@ -58,8 +71,8 @@ class Menu {
         )
     }
 
-    private fun import() {
-        val file = File(fileName())
+    private fun import(name: String) {
+        val file = File(name)
         if (!file.exists()) L.println("File not found.")
         else file.readLines()
             .map(Card::parse)
@@ -67,20 +80,20 @@ class Menu {
             .also { L.println("${it.size} cards have been loaded.") }
     }
 
-    private fun export() {
-        val name = fileName()
-        cards.cards
-            .also { L.println("${it.size} cards have been saved.") }
-            .joinToString("\n")
-            .let { File(name).writeText(it) }
-    }
+    private fun export(name: String) = cards.cards
+        .also { L.println("${it.size} cards have been saved.") }
+        .joinToString("\n")
+        .let { File(name).writeText(it) }
 
     private fun ask() {
         L.println("How many times to ask?")
         repeat(L.readln().toInt()) { checkCard() }
     }
 
-    private fun exit() = L.println("Bye bye!")
+    private fun exit() {
+        if (exportOnExitName != null) export(exportOnExitName!!)
+        L.println("Bye bye!")
+    }
 
     private fun log() {
         File(fileName()).writeText(L.logText)
