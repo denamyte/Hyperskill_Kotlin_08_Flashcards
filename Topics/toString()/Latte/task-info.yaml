@@ -1,0 +1,19 @@
+type: code
+files:
+  - name: src/Main.kt
+    visible: true
+    highlight_level: NONE
+    text: |-
+      class Latte(val milk: String, cost: Int, volume: Int) : Coffee(cost, volume) {
+          override fun toString(): String {
+              (...)
+          }
+      }
+    learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10201#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Sat, 23 Sep 2023 11:05:32 UTC"
+record: -1
+submission_language: kotlin

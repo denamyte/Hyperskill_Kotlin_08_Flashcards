@@ -17,3 +17,5 @@ content:
   - When expression
   - Working with strings
   - The main() function
+  - toString()
+  - Data class
